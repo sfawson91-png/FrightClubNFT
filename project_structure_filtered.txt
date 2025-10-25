@@ -1,0 +1,68 @@
+📂 Filtered folder structure for: C:/Users/Shaun/FrightClubFinal-main
+(roots: pages, components, src, lib, styles, app, depth ≤ 8)
+
+📁 components
+  📁 components\ArtGeneration
+    📄 components\ArtGeneration\ArtGenerationManager.tsx
+  📁 components\Home
+    📁 components\Home\automatedCopy
+      📄 components\Home\automatedCopy\AutomatedCopy.tsx
+      📄 components\Home\automatedCopy\CheckConnection.tsx
+    📁 components\Home\hooks
+      📄 components\Home\hooks\useSaveBlobData.ts
+      📄 components\Home\hooks\useSaveUserData.ts
+      📄 components\Home\hooks\useTypeAnimation.tsx
+    📁 components\Home\VideoComponent
+      📄 components\Home\VideoComponent\VideoComponent.module.css
+      📄 components\Home\VideoComponent\VideoComponent.tsx
+    📄 components\Home\FrightClubMain.tsx
+  📁 components\hooks
+    📄 components\hooks\useIPFS.ts
+    📄 components\hooks\usePerformance.ts
+  📁 components\Loading
+    📄 components\Loading\LoadingSpinner.tsx
+  📁 components\Mint
+    📄 components\Mint\abi.tsx
+    📄 components\Mint\MintingComponent.tsx
+  📁 components\Viewing
+    📁 components\Viewing\UserWalletComponent
+      📄 components\Viewing\UserWalletComponent\MetadataReader.tsx
+      📄 components\Viewing\UserWalletComponent\NFTToggle.tsx
+  📄 components\CountdownComponent.tsx
+  📄 components\FAQComponent.tsx
+  📄 components\FAQPage.tsx
+  📄 components\Footer.tsx
+  📄 components\Header.tsx
+  📄 components\MenuContent.tsx
+  📄 components\PopUpMenu.tsx
+  📄 components\WalletErrorBoundary.tsx
+📁 lib
+  📄 lib\ipfs.ts
+  📄 lib\wagmi.ts
+📁 pages
+  📁 pages\api
+    📁 pages\api\address
+      📁 pages\api\address\upload
+        📄 pages\api\address\upload\route.ts
+    📁 pages\api\auth
+      📄 pages\api\auth\[...nextauth].ts
+    📁 pages\api\ipfs
+      📄 pages\api\ipfs\update-metadata.ts
+    📄 pages\api\getUserData.ts
+    📄 pages\api\postUserData.ts
+    📄 pages\api\saveUserData.ts
+  📄 pages\_app.tsx
+  📄 pages\_document.tsx
+  📄 pages\ArtGeneration.tsx
+  📄 pages\FAQ.tsx
+  📄 pages\index.tsx
+  📄 pages\Mint.tsx
+  📄 pages\MintingPage.tsx
+  📄 pages\UserPortal.tsx
+  📄 pages\WalletConfirmation.tsx
+📁 styles
+  📄 styles\globals.css
+  📄 styles\Home.module.css
+📄 next.config.js
+📄 package.json
+📄 tsconfig.json

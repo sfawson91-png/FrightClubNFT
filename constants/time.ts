@@ -1,0 +1,4 @@
+// Oct 25, 2025 9:00 AM PT == 2025-10-25 16:00:00 UTC
+export const MINT_START_UTC_MS = 1761408000000;
+
+

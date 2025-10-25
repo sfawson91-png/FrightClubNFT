@@ -1,0 +1,293 @@
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+
+
+.background-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #000 url('/kitchen.png') center/cover no-repeat;
+}
+
+/* restore -x variant used by pages/index.tsx */
+.background-image-x {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url('/kitchen.png') center center / cover no-repeat fixed;
+}
+
+/* This will center content vertically and horizontally */
+.background-image.loggedout .button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* This assumes that the background-image div takes up the full viewport height */
+}
+
+/* This will position the button at the upper right with 15px padding when the user logs in */
+.background-image.loggedin .button-wrapper {
+  position: relative;
+}
+
+.background-image.loggedin .button-wrapper ConnectButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+/* restore -x variant used by pages/index.tsx */
+.background-image-x {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #000 url('/kitchen.png') center/cover no-repeat;
+}
+
+
+/* Removed conflicting background-image-y and background-image-z classes */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255,255,255,0) 0,
+    rgba(255,255,255,0) calc(var(--size, 220px) * 0.65),
+    rgba(0,0,0,0.55) calc(var(--size, 220px) * 0.65 + 40px),
+    rgba(0,0,0,0.85) calc(var(--size, 220px) * 0.65 + 140px)
+  );
+}
+
+.title {
+  z-index: 10;
+  color: white;
+}
+
+.button1 {
+  z-index: 10;
+  padding: 10px 20px;
+  border: none;
+  background-color: #8c0017;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+}
+.logo,
+.myfooter {
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  max-width: 400px;
+  min-width: 150px;
+}
+
+.myfooter {
+  display: flex;
+  justify-content: space-between; /* Horizontally centers the items */
+  align-items: center;      /* Vertically centers the items */
+  padding: 10px;            /* Adds some padding around the content */
+  width: 100%;              /* Ensures the footer spans the full width of the viewport */ 
+  position: fixed;
+  flex-wrap: wrap;
+  flex: auto;
+  left: 30%;
+  bottom: 1%;
+
+  z-index: 3;
+  
+}
+
+.myfooter > * {
+  margin: 0 10px; 
+}
+
+
+.menu-items,
+.menu {
+  top: 100px;
+  width: 25%;
+  max-width: 200px;
+  min-width: 75px;
+  transform: translateY(-50%);
+}
+
+.menu-items {
+  left: calc(25% - 150px - 10px);
+}
+
+.menu {
+  right: calc(25% - 150px - 10px);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+  .menu-items,
+  .menu {
+    top: calc(10px + 50% + 50px);
+    width: 40%;
+    max-width: none;
+    min-width: none;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .menu-items {
+    top: calc(10px + 50% + 50px + 100px);
+  }
+
+  .menu {
+    top: calc(10px + 50% + 50px + 200px);
+  }
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    align-items: center;
+    padding: 0;
+  }
+
+  .overlay {
+    display: none; /* Hide the overlay for phones */
+  }
+
+  .myfooter {
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Enhanced background images for mobile */
+  .background-image,
+  .background-image-x,
+  .background-image-y,
+  .background-image-z {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+  }
+
+  /* Mobile navigation improvements */
+  .menu-items,
+  .menu {
+    top: 100px;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    position: fixed;
+    z-index: 10;
+  }
+
+  .menu-items {
+    top: calc(10px + 50% + 50px + 100px);
+  }
+
+  .menu {
+    top: calc(10px + 50% + 50px + 200px);
+  }
+
+  /* Mobile logo adjustments */
+  .logo {
+    width: 80%;
+    max-width: 300px;
+    min-width: 200px;
+    height: auto;
+  }
+
+  /* Touch-friendly button sizes */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improved card spacing on mobile */
+  .MuiCard-root {
+    margin: 10px;
+    max-width: calc(100vw - 20px);
+  }
+
+  /* Better text sizing for mobile */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* Improved grid layout for mobile */
+  .MuiGrid-container {
+    padding: 0 10px;
+  }
+
+  .MuiGrid-item {
+    padding: 5px;
+  }
+}
+
+/* Tablet optimizations */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .logo {
+    width: 60%;
+    max-width: 400px;
+  }
+
+  .myfooter {
+    left: 20%;
+    bottom: 1%;
+  }
+}
+
+/* Large mobile devices */
+@media (max-width: 480px) {
+  .container {
+    padding: 0;
+  }
+
+  .logo {
+    width: 90%;
+    max-width: 250px;
+  }
+
+  /* Stack footer items vertically on very small screens */
+  .myfooter {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

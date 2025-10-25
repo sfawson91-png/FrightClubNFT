@@ -1,0 +1,87 @@
+/* VideoComponent.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px; /* Adjusted for phone screens */
+    overflow-y: auto;
+    max-height: 100vh; /* Ensures no scrolling */
+}
+
+.hallway {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Adjusted for responsiveness */
+    gap: 8px; /* Increased gap for phone screens */
+    justify-content: center; /* Center items horizontally */
+}
+
+.frame {
+    width: 100%;
+    padding: 5px;
+}
+
+.video {
+    width: 100%;
+    max-height: 200px; /* Adjusted for phone screens */
+    object-fit: contain;
+    /* Make sure video stays behind the button so clicks go to the button */
+    position: relative;
+    z-index: 0;
+    pointer-events: auto;
+}
+
+.button {
+    position: relative;
+    top: -15px; /* Adjusted for better alignment */
+    padding: 5px 10px; /* Increased padding for touchability */
+    color: white;
+    background-color: #b31414;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 14px; /* Adjusted for phone screens */
+    /* Ensure the button is above the video and receives pointer events */
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* Remove margins for all buttons */
+.button:first-child {
+    margin-top: 0;
+}
+
+/* Tablet Version */
+@media (max-width: 1024px) and (min-width: 769px) {
+    /* Your existing tablet styles here */
+    /* You can override specific styles for tablets here */
+}
+
+/* Phone Version */
+@media (max-width: 768px) {
+    .hallway {
+        grid-template-columns: repeat(1, 1fr); /* Single column for phones */
+    }
+
+    .frame {
+        width: 100%; /* Full width for phones */
+    }
+
+    .video {
+        max-height: 150px; /* Adjusted for phone screens */
+    }
+
+    .button {
+        top: -10px; /* Adjusted for better alignment on phones */
+        padding: 5px 10px; /* Increased padding for touchability */
+        font-size: 12px; /* Adjusted for phone screens */
+    }
+}
+
+/* Full-Sized Screens and Tablets */
+@media (min-width: 1025px) {
+    /* Reset any styles you want for full-sized screens and tablets */
+    /* You can add specific styles for larger screens here */
+}
