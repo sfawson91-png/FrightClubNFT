@@ -25,6 +25,7 @@ import {
   useReadContract,
   useChainId,
   useSwitchChain,
+  useSimulateContract,
 } from "wagmi";
 import { formatEther } from 'viem';
 import { mainnet } from 'viem/chains';
@@ -123,6 +124,18 @@ const MintNFTComponent = () => {
   const priceWei = (costData ?? BigInt(0)) as bigint;
   const totalWei = priceWei * BigInt(_mintAmount);
 
+  // Pre-validate the mint on-chain before prompting the wallet
+  const { data: sim, error: simError, isPending: simPending } = useSimulateContract({
+    address: contractConfig.address as `0x${string}`,
+    abi: FCABI,
+    functionName: 'mint',
+    args: [BigInt(_mintAmount)],
+    // only include value if price > 0
+    ...(totalWei > BigInt(0) ? { value: totalWei } : {}),
+    // you can set chainId explicitly if you want to force mainnet
+    // chainId: mainnet.id,
+  });
+
   const {
     writeContract,
     data: txHash,              // this is the transaction hash (string | undefined)
@@ -165,7 +178,9 @@ const MintNFTComponent = () => {
     !connected ||
     isWrongNetwork ||
     pending ||
-    hasError;
+    hasError ||
+    simPending ||
+    !sim?.request;
 
   // Handle successful transaction
   useEffect(() => {
@@ -239,17 +254,14 @@ const mintNFT = async () => {
             return;
         }
         
+        if (!sim?.request) {
+          setSnackbarError(`Mint simulation failed: ${simError ? String(simError.message ?? simError) : 'No request'}`);
+          return;
+        }
+
         console.log('Attempting to mint...');
-        await writeContract({
-          address: contractConfig.address,
-          abi: FCABI,
-          functionName: 'mint',
-          args: [BigInt(_mintAmount)],
-          // only include value if price > 0
-          ...(totalWei > BigInt(0) ? { value: totalWei } : {}),
-          chain: chain,
-          account: address,
-        });
+        // This sends the EXACT request that the chain validated in simulate
+        await writeContract(sim.request);
         console.log('Mint transaction initiated');
     } catch (error) {
         console.error('Error in mintNFT:', error);
@@ -342,6 +354,11 @@ const mintNFT = async () => {
                   pausedError ? `Paused Error: ${pausedError.message}` :
                   'Contract reads working'}
         </Typography>
+        {simError && (
+          <Typography variant="body2" align="center" color="error">
+            Simulation error: {String(simError.message ?? simError)}
+          </Typography>
+        )}
       </CardContent>
 
       <CardContent>
