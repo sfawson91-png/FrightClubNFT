@@ -26,7 +26,7 @@ import {
   useChainId,
   useSwitchChain,
 } from "wagmi";
-import { parseEther } from 'viem';
+import { formatEther } from 'viem';
 import { mainnet } from 'viem/chains';
 
 enum MintStage {
@@ -119,9 +119,9 @@ const MintNFTComponent = () => {
     functionName: "paused",
   });
 
-  const pricePerMintEth = 0.02; // 0.02 ETH each
-  const totalEth = (pricePerMintEth * _mintAmount).toString();
-  const mintAmountInWei = parseEther(totalEth); // bigint
+  // costData is bigint | undefined; default to 0 if not loaded yet
+  const priceWei = (costData ?? BigInt(0)) as bigint;
+  const totalWei = priceWei * BigInt(_mintAmount);
 
   const {
     writeContract,
@@ -183,8 +183,9 @@ const MintNFTComponent = () => {
   }, [isMintLoading]);
 
   const calculateCostInEth = (amount: number) => {
-    const costInEth = 0.02 * amount;
-    return `${costInEth} ETH`;
+    if (priceWei === undefined) return '...';
+    const total = priceWei * BigInt(amount);
+    return `${formatEther(total)} ETH`;
   };
 
   // Function to handle incrementing the mint amount
@@ -223,7 +224,7 @@ const mintNFT = async () => {
             return;
         }
         
-        if (isPaused) {
+        if (isPaused === true) {
             setSnackbarError("Minting is currently paused");
             return;
         }
@@ -233,7 +234,7 @@ const mintNFT = async () => {
             return;
         }
 
-        if (walletBalance && Number(walletBalance) >= 10) {
+        if (walletBalance !== undefined && (walletBalance as bigint) >= BigInt(10)) {
             setSnackbarError("You have reached the maximum limit of 10 NFTs per wallet");
             return;
         }
@@ -241,10 +242,11 @@ const mintNFT = async () => {
         console.log('Attempting to mint...');
         await writeContract({
           address: contractConfig.address,
-          abi: FCABI,                    // use the ABI symbol directly
+          abi: FCABI,
           functionName: 'mint',
           args: [BigInt(_mintAmount)],
-          value: mintAmountInWei,        // bigint from parseEther
+          // only include value if price > 0
+          ...(totalWei > BigInt(0) ? { value: totalWei } : {}),
           chain: chain,
           account: address,
         });
@@ -323,6 +325,11 @@ const mintNFT = async () => {
         {walletBalance !== undefined && (
           <Typography variant="body2" align="center">
             Your NFTs: {Number(walletBalance)}/10
+          </Typography>
+        )}
+        {typeof priceWei === 'bigint' && (
+          <Typography variant="body2" align="center">
+            Price (from contract): {formatEther(priceWei)} ETH
           </Typography>
         )}
         
